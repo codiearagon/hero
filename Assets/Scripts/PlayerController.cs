@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -6,10 +7,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private float linearSpeed = 3.0f;
     [SerializeField] private float rotationSpeed = 240.0f;
-    [SerializeField] private float projectileSpeed = 5.0f;
 
     private Rigidbody2D rb;
-    private bool keyboardMode = true;
+    private bool keyboardMode = false;
+    private bool firing = false;
     
     void Start()
     {
@@ -25,8 +26,15 @@ public class PlayerController : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
+        {  
+            firing = true;
+            StartCoroutine(FireEggs());
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
         {
-            FireEggs();
+            firing = false;
+            StopCoroutine(FireEggs());
         }
     }
 
@@ -42,9 +50,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void FireEggs()
+    IEnumerator FireEggs()
     {
-
+        while (firing)
+        {
+            Instantiate(eggProjectile, transform.position, transform.rotation);
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 
     // Handles keyboard mode movement

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7459234124825212815}
   - component: {fileID: 6341591948528677664}
   - component: {fileID: 3061313448252024745}
+  - component: {fileID: 3632075018012131595}
   m_Layer: 0
   m_Name: EggProjectile
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 6725658846882740887}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.17, y: 1.99, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -146,10 +147,22 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: -0.0038750172, y: 0.0036987662}
   m_Size: {x: 0.15581179, y: 0.20037186}
   m_Direction: 0
+--- !u!114 &3632075018012131595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6725658846882740887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036d8de8b9e2b534481c13c571cdd161, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
