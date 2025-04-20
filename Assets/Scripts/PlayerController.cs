@@ -1,8 +1,10 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI heroModeText;
     [SerializeField] private GameObject eggProjectile;
     [SerializeField] private Camera cam;
     [SerializeField] private float linearSpeed = 3.0f;
@@ -11,10 +13,16 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private bool keyboardMode = false;
     private bool firing = false;
+    private bool cooldown = false;
     
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        if (keyboardMode)
+            heroModeText.text = "Hero Mode: Keyboard";
+        else
+            heroModeText.text = "Hero Mode: Mouse";
     }
 
     
@@ -23,18 +31,29 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M))
         {
             keyboardMode = !keyboardMode;
+
+            if (keyboardMode)
+                heroModeText.text = "Hero Mode: Keyboard";
+            else
+                heroModeText.text = "Hero Mode: Mouse";
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {  
-            firing = true;
-            StartCoroutine(FireEggs());
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if (!cooldown && !firing)
+            {
+                firing = true;
+                StartCoroutine(FireEggs());
+            }
         }
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
             firing = false;
             StopCoroutine(FireEggs());
+
+            if (!cooldown)
+                StartCoroutine(SpamCooldown());
         }
     }
 
@@ -57,6 +76,13 @@ public class PlayerController : MonoBehaviour
             Instantiate(eggProjectile, transform.position, transform.rotation);
             yield return new WaitForSeconds(0.2f);
         }
+    }
+
+    IEnumerator SpamCooldown()
+    {
+        cooldown = true;
+        yield return new WaitForSeconds(0.18f);
+        cooldown = false;
     }
 
     // Handles keyboard mode movement

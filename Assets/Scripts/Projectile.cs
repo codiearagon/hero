@@ -2,11 +2,19 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    public static int globalCount = 0;
+
+    [SerializeField] private float damagePercent = 20.0f;
     [SerializeField] private float bounds = 15.0f;
 
     private float projectileSpeed = 4.0f; // Move at 40 units/sec
 
     // Update is called once per frame
+
+    void Start()
+    {
+        globalCount++;    
+    }
     void Update()
     {
         CheckOutOfBounds();
@@ -19,9 +27,10 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.CompareTag("Enemy"))
         {
-            Destroy(collision.gameObject);
+            collision.GetComponent<Enemy>().TakeDamageByMaxPercent(damagePercent);
+            globalCount--;
             Destroy(gameObject);
         }
     }
@@ -31,6 +40,7 @@ public class Projectile : MonoBehaviour
         if(transform.position.y > bounds ||  transform.position.y < -bounds ||
             transform.position.x > bounds || transform.position.x < -bounds) 
         {
+            globalCount--;
             Destroy(gameObject);
         }
     }
