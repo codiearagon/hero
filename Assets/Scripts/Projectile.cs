@@ -10,7 +10,7 @@ public class Projectile : MonoBehaviour
 
     void Start()
     {
-        globalCount++;    
+        globalCount++;
     }
 
     void Update()
