@@ -9,11 +9,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private float linearSpeed = 3.0f;
     [SerializeField] private float rotationSpeed = 240.0f;
+    [SerializeField] private float fireRate = 0.2f;
 
     private Rigidbody2D rb;
     private bool keyboardMode = false;
-    private bool firing = false;
-    private bool cooldown = false;
+    private float cooldown = 0.2f;
     
     void Start()
     {
@@ -38,22 +38,10 @@ public class PlayerController : MonoBehaviour
                 heroModeText.text = "Hero Mode: Mouse";
         }
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && Time.time > cooldown)
         {
-            if (!cooldown && !firing)
-            {
-                firing = true;
-                StartCoroutine(FireEggs());
-            }
-        }
-
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            firing = false;
-            StopCoroutine(FireEggs());
-
-            if (!cooldown)
-                StartCoroutine(SpamCooldown());
+            Instantiate(eggProjectile, transform.position, transform.rotation);
+            cooldown = Time.time + fireRate;
         }
     }
 
@@ -67,22 +55,6 @@ public class PlayerController : MonoBehaviour
         {
             MouseMovement();
         }
-    }
-
-    IEnumerator FireEggs()
-    {
-        while (firing)
-        {
-            Instantiate(eggProjectile, transform.position, transform.rotation);
-            yield return new WaitForSeconds(0.2f);
-        }
-    }
-
-    IEnumerator SpamCooldown()
-    {
-        cooldown = true;
-        yield return new WaitForSeconds(0.18f);
-        cooldown = false;
     }
 
     // Handles keyboard mode movement

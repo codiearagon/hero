@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI enemiesDestroyedText;
     [SerializeField] private Camera cam;
     [SerializeField] private GameObject enemyPrefab;
+
     [SerializeField] private int maxEnemies = 10;
     [SerializeField] private int currentEnemies = 0;
     [SerializeField] private float xBounds;
@@ -26,6 +27,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Application.Quit();
+        }
+
         enemyCountText.text = "Enemy Count: " + currentEnemies;
         eggsCountText.text = "Eggs Count: " + Projectile.globalCount;
 

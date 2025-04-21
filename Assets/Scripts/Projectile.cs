@@ -6,15 +6,13 @@ public class Projectile : MonoBehaviour
 
     [SerializeField] private float damagePercent = 20.0f;
     [SerializeField] private float bounds = 15.0f;
-
-    private float projectileSpeed = 4.0f; // Move at 40 units/sec
-
-    // Update is called once per frame
+    [SerializeField] private float projectileSpeed = 40.0f; // Move at 40 units/sec
 
     void Start()
     {
         globalCount++;    
     }
+
     void Update()
     {
         CheckOutOfBounds();
@@ -29,9 +27,8 @@ public class Projectile : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            collision.GetComponent<Enemy>().TakeDamageByMaxPercent(damagePercent);
-            globalCount--;
             Destroy(gameObject);
+            collision.GetComponent<Enemy>().TakeDamageByMaxPercent(damagePercent);
         }
     }
 
@@ -40,8 +37,12 @@ public class Projectile : MonoBehaviour
         if(transform.position.y > bounds ||  transform.position.y < -bounds ||
             transform.position.x > bounds || transform.position.x < -bounds) 
         {
-            globalCount--;
             Destroy(gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        globalCount--;
     }
 }

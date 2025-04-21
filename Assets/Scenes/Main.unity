@@ -761,6 +761,7 @@ MonoBehaviour:
   cam: {fileID: 519420031}
   linearSpeed: 3
   rotationSpeed: 240
+  fireRate: 0.1
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
