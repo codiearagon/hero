@@ -12,20 +12,28 @@ public class PlayerController : MonoBehaviour
     private bool keyboardMode = false;
     private float cooldown = 0.2f;
     private float fireRate = 0.2f;
+
+    private GameObject currentDest;
     
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
         if (keyboardMode)
-            UIManager.updateHeroModeText("Keyboard");
+            UIManager.UpdateHeroModeText("Keyboard");
         else
-            UIManager.updateHeroModeText("Mouse");
+            UIManager.UpdateHeroModeText("Mouse");
     }
 
     
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            currentDest = WaypointManager.GetNextDestination(currentDest);
+            Debug.Log(currentDest);
+        }
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Application.Quit();
@@ -36,9 +44,9 @@ public class PlayerController : MonoBehaviour
             keyboardMode = !keyboardMode;
 
             if (keyboardMode)
-                UIManager.updateHeroModeText("Keyboard");
+                UIManager.UpdateHeroModeText("Keyboard");
             else
-                UIManager.updateHeroModeText("Mouse");
+                UIManager.UpdateHeroModeText("Mouse");
         }
 
         if (Input.GetKey(KeyCode.Space) && Time.time > cooldown)

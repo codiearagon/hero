@@ -14,15 +14,6 @@ public class Waypoint : MonoBehaviour
         health = maxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            Destroy(gameObject);
-        }
-    }
-
     public void TakeDamageByMaxPercent(float percent)
     {
         eggCollisionCount++;
