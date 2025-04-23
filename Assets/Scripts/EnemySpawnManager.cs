@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SpawnManager : MonoBehaviour
+public class EnemySpawnManager : MonoBehaviour
 {
     [SerializeField] private Camera cam;
     [SerializeField] private GameObject enemyPrefab;

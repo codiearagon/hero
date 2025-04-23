@@ -3,10 +3,10 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private static TextMeshProUGUI eggsCountText;
-    [SerializeField] private static TextMeshProUGUI enemyCountText;
-    [SerializeField] private static TextMeshProUGUI enemiesDestroyedText;
-    [SerializeField] private static TextMeshProUGUI heroModeText;
+    private static TextMeshProUGUI eggsCountText;
+    private static TextMeshProUGUI enemyCountText;
+    private static TextMeshProUGUI enemiesDestroyedText;
+    private static TextMeshProUGUI heroModeText;
 
     private void Start()
     {
