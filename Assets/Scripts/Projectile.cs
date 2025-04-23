@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float damagePercent = 20.0f;
-    [SerializeField] private float bounds = 15.0f;
     [SerializeField] private float projectileSpeed = 40.0f; // Move at 40 units/sec
 
+    private float bounds = 100.0f;
     private static int eggCount = 0;
 
     void Start()
@@ -29,7 +28,12 @@ public class Projectile : MonoBehaviour
         if (collision.CompareTag("Enemy"))
         {
             Destroy(gameObject);
-            collision.GetComponent<Enemy>().TakeDamageByMaxPercent(damagePercent);
+            collision.GetComponent<Enemy>().TakeDamageByMaxPercent(20.0f); // 20% of health
+        }
+        else if (collision.CompareTag("Waypoint"))
+        {
+            Destroy(gameObject);
+            collision.GetComponent<Waypoint>().TakeDamageByMaxPercent(25.0f); // 25% of health
         }
     }
 
@@ -44,6 +48,7 @@ public class Projectile : MonoBehaviour
 
     private void OnDestroy()
     {
+        //Debug.Log("Projectile destroyed");
         eggCount--;
         UIManager.UpdateEggsCountText(eggCount);
     }

@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
     private static TextMeshProUGUI enemiesDestroyedText;
     private static TextMeshProUGUI heroModeText;
 
-    private void Start()
+    private void Awake()
     {
         eggsCountText = GameObject.Find("EggsCountText").GetComponent<TextMeshProUGUI>();
         enemyCountText = GameObject.Find("EnemyCountText").GetComponent<TextMeshProUGUI>();

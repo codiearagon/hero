@@ -19,11 +19,6 @@ public class EnemySpawnManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Application.Quit();
-        }
-
         if (Enemy.enemyCount < maxEnemies)
         {
             SpawnEnemy();

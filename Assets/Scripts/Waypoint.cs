@@ -1,31 +1,25 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Waypoint : MonoBehaviour
 {
-    public static int enemyCount = 0;
 
     [SerializeField] private float maxHealth = 100.0f;
     [SerializeField] private float health;
 
     private int eggCollisionCount = 0;
-    private static int destroyedEnemies = 0;
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         health = maxHealth;
-        enemyCount++;
-        UIManager.UpdateEnemyCountText(enemyCount);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    // Update is called once per frame
+    void Update()
     {
-        if (collision.CompareTag("Player"))
+        if (Input.GetKeyDown(KeyCode.J))
         {
             Destroy(gameObject);
-        }
-        else if (collision.CompareTag("Waypoint"))
-        {
-
         }
     }
 
@@ -35,7 +29,7 @@ public class Enemy : MonoBehaviour
         health -= maxHealth * (percent / 100);
 
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, sr.color.a * 0.80f);
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, sr.color.a * 0.25f);
 
         if (health <= 0 || eggCollisionCount >= 4)
         {
@@ -45,9 +39,6 @@ public class Enemy : MonoBehaviour
 
     private void OnDestroy()
     {
-        enemyCount--;
-        destroyedEnemies++;
-        UIManager.UpdateEnemyCountText(enemyCount);
-        UIManager.UpdateDestroyedEnemiesText(destroyedEnemies);
+        //Instantiate(gameObject, new Vector2(transform.position.x + 1, transform.position.y + 1), transform.rotation, transform.parent);
     }
 }

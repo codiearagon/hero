@@ -5,13 +5,13 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject eggProjectile;
     [SerializeField] private Camera cam;
-    [SerializeField] private float linearSpeed = 3.0f;
-    [SerializeField] private float rotationSpeed = 240.0f;
-    [SerializeField] private float fireRate = 0.2f;
+    [SerializeField] private float linearSpeed;
+    [SerializeField] private float rotationSpeed;
 
     private Rigidbody2D rb;
     private bool keyboardMode = false;
     private float cooldown = 0.2f;
+    private float fireRate = 0.2f;
     
     void Start()
     {
@@ -26,6 +26,11 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Application.Quit();
+        }
+
         if (Input.GetKeyDown(KeyCode.M))
         {
             keyboardMode = !keyboardMode;
@@ -38,6 +43,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space) && Time.time > cooldown)
         {
+            Debug.Log("Shoot!");
             Instantiate(eggProjectile, transform.position, transform.rotation);
             cooldown = Time.time + fireRate;
         }
