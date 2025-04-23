@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public static int globalCount = 0;
-
     [SerializeField] private float damagePercent = 20.0f;
     [SerializeField] private float bounds = 15.0f;
     [SerializeField] private float projectileSpeed = 40.0f; // Move at 40 units/sec
 
+    private static int eggCount = 0;
+
     void Start()
     {
-        globalCount++;
+        eggCount++;
+        UIManager.UpdateEggsCountText(eggCount);
     }
 
     void Update()
@@ -43,6 +44,7 @@ public class Projectile : MonoBehaviour
 
     private void OnDestroy()
     {
-        globalCount--;
+        eggCount--;
+        UIManager.UpdateEggsCountText(eggCount);
     }
 }

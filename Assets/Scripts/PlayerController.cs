@@ -1,10 +1,8 @@
 using System.Collections;
 using UnityEngine;
-using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI heroModeText;
     [SerializeField] private GameObject eggProjectile;
     [SerializeField] private Camera cam;
     [SerializeField] private float linearSpeed = 3.0f;
@@ -20,9 +18,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         if (keyboardMode)
-            heroModeText.text = "Hero Mode: Keyboard";
+            UIManager.updateHeroModeText("Keyboard");
         else
-            heroModeText.text = "Hero Mode: Mouse";
+            UIManager.updateHeroModeText("Mouse");
     }
 
     
@@ -33,9 +31,9 @@ public class PlayerController : MonoBehaviour
             keyboardMode = !keyboardMode;
 
             if (keyboardMode)
-                heroModeText.text = "Hero Mode: Keyboard";
+                UIManager.updateHeroModeText("Keyboard");
             else
-                heroModeText.text = "Hero Mode: Mouse";
+                UIManager.updateHeroModeText("Mouse");
         }
 
         if (Input.GetKey(KeyCode.Space) && Time.time > cooldown)

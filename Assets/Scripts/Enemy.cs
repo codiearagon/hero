@@ -2,23 +2,25 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private GameManager gameManager;
+    public static int enemyCount = 0;
+
     [SerializeField] private float maxHealth = 100.0f;
     [SerializeField] private float health;
 
     private int eggCollisionCount = 0;
+    private static int destroyedEnemies = 0;
 
     void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         health = maxHealth;
+        enemyCount++;
+        UIManager.UpdateEnemyCountText(enemyCount);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            gameManager.ReduceEnemyCount();
             Destroy(gameObject);
         }
     }
@@ -33,8 +35,15 @@ public class Enemy : MonoBehaviour
 
         if (health <= 0 || eggCollisionCount >= 4)
         {
-            gameManager.ReduceEnemyCount();
             Destroy(gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        enemyCount--;
+        destroyedEnemies++;
+        UIManager.UpdateEnemyCountText(enemyCount);
+        UIManager.UpdateDestroyedEnemiesText(destroyedEnemies);
     }
 }
