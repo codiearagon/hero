@@ -7,10 +7,11 @@ public class Waypoint : MonoBehaviour
     [SerializeField] private float health;
 
     private int eggCollisionCount = 0;
+    private Vector2 origPos;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        origPos = transform.position;
         health = maxHealth;
     }
 
@@ -24,12 +25,10 @@ public class Waypoint : MonoBehaviour
 
         if (health <= 0 || eggCollisionCount >= 4)
         {
-            Destroy(gameObject);
+            transform.position = new Vector2(Random.Range(origPos.x - 15, origPos.x + 15), Random.Range(origPos.y - 15, origPos.y + 15));
+            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1.0f);
+            health = maxHealth;
+            eggCollisionCount = 0;
         }
-    }
-
-    private void OnDestroy()
-    {
-        //Instantiate(gameObject, new Vector2(transform.position.x + 1, transform.position.y + 1), transform.rotation, transform.parent);
     }
 }
