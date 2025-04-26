@@ -3,7 +3,7 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    private static TextMeshProUGUI eggsCountText;
+    private TextMeshProUGUI eggsCountText;
     private static TextMeshProUGUI enemyCountText;
     private static TextMeshProUGUI enemiesDestroyedText;
     private static TextMeshProUGUI heroModeText;
@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
         enemyCountText.text = "Enemy Count: " + count;
     }
 
-    public static void UpdateEggsCountText(int count)
+    public void UpdateEggsCountText(int count)
     {
         eggsCountText.text = "Eggs Count: " + count;
     }

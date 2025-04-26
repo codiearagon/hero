@@ -7,10 +7,12 @@ public class Projectile : MonoBehaviour
     private float bounds = 100.0f;
     private static int eggCount = 0;
 
+    private UIManager uiManager;
+
     void Start()
     {
         eggCount++;
-        UIManager.UpdateEggsCountText(eggCount);
+        uiManager.UpdateEggsCountText(eggCount);
     }
 
     void Update()
@@ -50,6 +52,6 @@ public class Projectile : MonoBehaviour
     {
         //Debug.Log("Projectile destroyed");
         eggCount--;
-        UIManager.UpdateEggsCountText(eggCount);
+        uiManager.UpdateEggsCountText(eggCount);
     }
 }

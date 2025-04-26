@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private float fireRate = 0.2f;
 
     private GameObject currentDest;
+    private UIManager uiManager;
     
     void Start()
     {
@@ -52,7 +53,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.Space) && Time.time > cooldown)
         {
             Debug.Log("Shoot!");
-            Instantiate(eggProjectile, transform.position, transform.rotation);
+            GameObject egg = Instantiate(eggProjectile, transform.position, transform.rotation);
+            egg.GetComponent<UIManager>() = uiManager;
             cooldown = Time.time + fireRate;
         }
     }
