@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private UIManager uiManager;
     [SerializeField] private GameObject eggProjectile;
     [SerializeField] private Camera cam;
     [SerializeField] private float linearSpeed;
@@ -14,16 +15,15 @@ public class PlayerController : MonoBehaviour
     private float fireRate = 0.2f;
 
     private GameObject currentDest;
-    private UIManager uiManager;
     
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
         if (keyboardMode)
-            UIManager.UpdateHeroModeText("Keyboard");
+            uiManager.UpdateHeroModeText("Keyboard");
         else
-            UIManager.UpdateHeroModeText("Mouse");
+            uiManager.UpdateHeroModeText("Mouse");
     }
 
     
@@ -45,16 +45,15 @@ public class PlayerController : MonoBehaviour
             keyboardMode = !keyboardMode;
 
             if (keyboardMode)
-                UIManager.UpdateHeroModeText("Keyboard");
+                uiManager.UpdateHeroModeText("Keyboard");
             else
-                UIManager.UpdateHeroModeText("Mouse");
+                uiManager.UpdateHeroModeText("Mouse");
         }
 
         if (Input.GetKey(KeyCode.Space) && Time.time > cooldown)
         {
-            Debug.Log("Shoot!");
             GameObject egg = Instantiate(eggProjectile, transform.position, transform.rotation);
-            egg.GetComponent<UIManager>() = uiManager;
+            egg.GetComponent<Projectile>().SetUIManager(uiManager);
             cooldown = Time.time + fireRate;
         }
     }

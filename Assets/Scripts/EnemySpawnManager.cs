@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemySpawnManager : MonoBehaviour
 {
+    [SerializeField] private UIManager uiManager;
     [SerializeField] private Camera cam;
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private int maxEnemies;
@@ -27,7 +28,8 @@ public class EnemySpawnManager : MonoBehaviour
 
     void SpawnEnemy()
     {
-        Instantiate(enemyPrefab, RandomPos(), Quaternion.identity);
+        GameObject enemy = Instantiate(enemyPrefab, RandomPos(), Quaternion.identity);
+        enemy.GetComponent<Enemy>().SetUIManager(uiManager);
     }
 
     Vector2 RandomPos()

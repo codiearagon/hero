@@ -1,12 +1,16 @@
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     public static int enemyCount = 0;
 
+    [SerializeField] private UIManager uiManager;
     [SerializeField] private float maxHealth = 100.0f;
     [SerializeField] private float health;
+    [SerializeField] private float speed;
 
+    private GameObject currentWaypointDir;
     private int eggCollisionCount = 0;
     private static int destroyedEnemies = 0;
 
@@ -14,7 +18,15 @@ public class Enemy : MonoBehaviour
     {
         health = maxHealth;
         enemyCount++;
-        UIManager.UpdateEnemyCountText(enemyCount);
+        uiManager.UpdateEnemyCountText(enemyCount);
+
+        currentWaypointDir = WaypointManager.GetNextDestination(currentWaypointDir);
+        RotateTo(currentWaypointDir);
+    }
+
+    private void Update()
+    {
+        transform.Translate(Vector2.up * speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -27,6 +39,11 @@ public class Enemy : MonoBehaviour
         {
 
         }
+    }
+
+    public void SetUIManager(UIManager uiM)
+    {
+        uiManager = uiM;
     }
 
     public void TakeDamageByMaxPercent(float percent)
@@ -43,11 +60,18 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void RotateTo(GameObject direction)
+    {
+        Vector3 target = direction.transform.position;
+        float angle = Mathf.Atan2(target.y - transform.position.y, target.x - transform.position.x) * Mathf.Rad2Deg;
+        transform.Rotate(Vector3.forward, angle - 90); // - 90 because of the sprite rotation offset
+    }
+
     private void OnDestroy()
     {
         enemyCount--;
         destroyedEnemies++;
-        UIManager.UpdateEnemyCountText(enemyCount);
-        UIManager.UpdateDestroyedEnemiesText(destroyedEnemies);
+        uiManager.UpdateEnemyCountText(enemyCount);
+        uiManager.UpdateDestroyedEnemiesText(destroyedEnemies);
     }
 }

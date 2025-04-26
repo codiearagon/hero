@@ -305,6 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f168c3b57c71d468fe6e89b04c6655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManager: {fileID: 1663641291}
 --- !u!1 &257831831
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,6 +554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088e5b420d7a86d4b9fd3d9107e3c542, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManager: {fileID: 1663641291}
   cam: {fileID: 519420031}
   enemyPrefab: {fileID: 2260611784997333623, guid: 1fc404fda37d8d9428e042f7bf576cc3, type: 3}
   maxEnemies: 10
@@ -1006,6 +1008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f586596ec65b141862d9a10ed4e57c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManager: {fileID: 1663641291}
   eggProjectile: {fileID: 6725658846882740887, guid: 377cfaf212480d8439c2a5442fd20773, type: 3}
   cam: {fileID: 519420031}
   linearSpeed: 30
@@ -2316,6 +2319,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50839029d6e5dd449aaad75434fa5b40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eggsCountText: {fileID: 257831833}
+  enemyCountText: {fileID: 1136990974}
+  enemiesDestroyedText: {fileID: 67486935}
+  heroModeText: {fileID: 968925897}
+  waypointModeText: {fileID: 577668678}
 --- !u!4 &1663641292
 Transform:
   m_ObjectHideFlags: 0

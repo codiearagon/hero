@@ -54,4 +54,9 @@ public class Projectile : MonoBehaviour
         eggCount--;
         uiManager.UpdateEggsCountText(eggCount);
     }
+
+    public void SetUIManager(UIManager uiM)
+    {
+        uiManager = uiM;
+    }
 }
