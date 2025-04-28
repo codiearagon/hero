@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class WaypointManager : MonoBehaviour
 {
@@ -9,9 +10,14 @@ public class WaypointManager : MonoBehaviour
     private static List<GameObject> waypoints;
     private static Mode mode;
 
+    private bool visible;
+
     void Start()
     {
         mode = Mode.Sequential;
+        visible = true;
+        uiManager.UpdateWaypointVisibilityText("Visible");
+
         waypoints = new List<GameObject>();
 
         foreach (Transform child in transform)
@@ -33,6 +39,7 @@ public class WaypointManager : MonoBehaviour
         // Hide waypoints
         if (Input.GetKeyDown(KeyCode.H))
         {
+            ChangeVisibility();
             foreach (GameObject wp in waypoints)
             {
                 wp.GetComponent<SpriteRenderer>().enabled = !wp.GetComponent<SpriteRenderer>().enabled;
@@ -79,6 +86,31 @@ public class WaypointManager : MonoBehaviour
             }
 
             return waypoints[randomIndex];
+        }
+    }
+
+    public static void ReconfigurePath(GameObject wp)
+    {
+        foreach(Enemy e in EnemySpawnManager.enemies)
+        {
+            if(e.currentWaypointDir == wp)
+            {
+                e.UpdatePath(wp);
+            }
+        }
+    }
+
+    private void ChangeVisibility()
+    {
+        if (visible)
+        {
+            visible = false;
+            uiManager.UpdateWaypointVisibilityText("Hidden");
+        }
+        else
+        {
+            visible = true;
+            uiManager.UpdateWaypointVisibilityText("Visible");
         }
     }
 }

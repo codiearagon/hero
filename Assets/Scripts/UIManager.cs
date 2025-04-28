@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI enemiesDestroyedText;
     [SerializeField] private TextMeshProUGUI heroModeText;
     [SerializeField] private TextMeshProUGUI waypointModeText;
+    [SerializeField] private TextMeshProUGUI waypointVisibilityText;
 
     public void UpdateDestroyedEnemiesText(int count)
     {
@@ -32,5 +34,10 @@ public class UIManager : MonoBehaviour
     public void UpdateWaypointModeText(string mode)
     {
         waypointModeText.text = "Waypoint Mode: " + mode;
+    }
+
+    public void UpdateWaypointVisibilityText(string visibility)
+    {
+        waypointVisibilityText.text = "WaypointVisibility: " + visibility;
     }
 }

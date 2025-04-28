@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+//using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private float linearSpeed;
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private Slider cdSlider;
 
     private Rigidbody2D rb;
     private bool keyboardMode = false;
@@ -19,6 +22,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        cdSlider.value = cdSlider.maxValue;
 
         if (keyboardMode)
             uiManager.UpdateHeroModeText("Keyboard");
@@ -55,6 +60,10 @@ public class PlayerController : MonoBehaviour
             GameObject egg = Instantiate(eggProjectile, transform.position, transform.rotation);
             egg.GetComponent<Projectile>().SetUIManager(uiManager);
             cooldown = Time.time + fireRate;
+            cdSlider.minValue = Time.time;
+            cdSlider.value = cdSlider.minValue;
+            cdSlider.maxValue = cooldown;
+            StartCoroutine(CooldownBar());
         }
     }
 
@@ -67,6 +76,15 @@ public class PlayerController : MonoBehaviour
         else
         {
             MouseMovement();
+        }
+    }
+
+    IEnumerator CooldownBar()
+    {
+        while (cdSlider.value < cdSlider.maxValue)
+        {
+            cdSlider.value = Time.time;
+            yield return null;
         }
     }
 

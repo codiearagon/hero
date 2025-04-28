@@ -29,6 +29,8 @@ public class Waypoint : MonoBehaviour
             sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1.0f);
             health = maxHealth;
             eggCollisionCount = 0;
+
+            WaypointManager.ReconfigurePath(gameObject);
         }
     }
 }

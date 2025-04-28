@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawnManager : MonoBehaviour
 {
+    public static List<Enemy> enemies = new List<Enemy>();
+
     [SerializeField] private UIManager uiManager;
     [SerializeField] private Camera cam;
     [SerializeField] private GameObject enemyPrefab;

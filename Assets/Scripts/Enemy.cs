@@ -4,29 +4,31 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public static int enemyCount = 0;
+    public GameObject currentWaypointDir;
 
     [SerializeField] private UIManager uiManager;
     [SerializeField] private float maxHealth = 100.0f;
     [SerializeField] private float health;
     [SerializeField] private float speed;
 
-    private GameObject currentWaypointDir;
     private int eggCollisionCount = 0;
     private static int destroyedEnemies = 0;
 
     void Start()
     {
+        EnemySpawnManager.enemies.Add(this);
+
         health = maxHealth;
         enemyCount++;
         uiManager.UpdateEnemyCountText(enemyCount);
 
-        currentWaypointDir = WaypointManager.GetNextDestination(currentWaypointDir);
-        RotateTo(currentWaypointDir);
+        UpdatePath(WaypointManager.GetNextDestination(currentWaypointDir));
     }
 
     private void Update()
     {
         transform.Translate(Vector2.up * speed * Time.deltaTime);
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -35,10 +37,16 @@ public class Enemy : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else if (collision.CompareTag("Waypoint"))
+        else if (collision.name == "PlaneDetector" && collision.transform.parent.name == currentWaypointDir.name)
         {
-
+            UpdatePath(WaypointManager.GetNextDestination(currentWaypointDir));
         }
+    }
+
+    public void UpdatePath(GameObject dir)
+    {
+        currentWaypointDir = dir;
+        RotateTo(currentWaypointDir);
     }
 
     public void SetUIManager(UIManager uiM)
@@ -63,14 +71,14 @@ public class Enemy : MonoBehaviour
     private void RotateTo(GameObject direction)
     {
         Vector3 target = direction.transform.position;
-        float angle = Mathf.Atan2(target.y - transform.position.y, target.x - transform.position.x) * Mathf.Rad2Deg;
-        transform.Rotate(Vector3.forward, angle - 90); // - 90 because of the sprite rotation offset
+        transform.up = target - transform.position;
     }
 
     private void OnDestroy()
     {
         enemyCount--;
         destroyedEnemies++;
+        EnemySpawnManager.enemies.Remove(this);
         uiManager.UpdateEnemyCountText(enemyCount);
         uiManager.UpdateDestroyedEnemiesText(destroyedEnemies);
     }
