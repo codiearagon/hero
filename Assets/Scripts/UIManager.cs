@@ -10,6 +10,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI heroModeText;
     [SerializeField] private TextMeshProUGUI waypointModeText;
     [SerializeField] private TextMeshProUGUI waypointVisibilityText;
+    [SerializeField] private TextMeshProUGUI wpCamText;
+
+    [SerializeField] private GameObject wpCam;
 
     public void UpdateDestroyedEnemiesText(int count)
     {
@@ -39,5 +42,15 @@ public class UIManager : MonoBehaviour
     public void UpdateWaypointVisibilityText(string visibility)
     {
         waypointVisibilityText.text = "WaypointVisibility: " + visibility;
+    }
+
+    public void UpdateWPCamVisibility(bool active)
+    {
+        wpCam.SetActive(active);
+    }
+
+    public void UpdateWPCamText(string active)
+    {
+        wpCamText.text = "Waypoint Cam: " + active;
     }
 }

@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Waypoint : MonoBehaviour
@@ -9,10 +11,29 @@ public class Waypoint : MonoBehaviour
     private int eggCollisionCount = 0;
     private Vector2 origPos;
 
+    private bool isShaking;
+    private Vector2 initialPos;
+    private float shakeTime;
+
     void Start()
     {
         origPos = transform.position;
         health = maxHealth;
+    }
+
+    private void Update()
+    {
+        if (isShaking)
+        {
+            transform.position = initialPos + Random.insideUnitCircle * eggCollisionCount;
+            shakeTime -= Time.deltaTime;
+
+            if (shakeTime<= 0)
+            {
+                isShaking = false;
+                WaypointManager.DisableCam();
+            }
+        }
     }
 
     public void TakeDamageByMaxPercent(float percent)
@@ -21,7 +42,10 @@ public class Waypoint : MonoBehaviour
         health -= maxHealth * (percent / 100);
 
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, sr.color.a * 0.25f);
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, sr.color.a * 0.75f);
+
+        WaypointManager.SetCamera(this);
+        Shake();
 
         if (health <= 0 || eggCollisionCount >= 4)
         {
@@ -29,8 +53,24 @@ public class Waypoint : MonoBehaviour
             sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1.0f);
             health = maxHealth;
             eggCollisionCount = 0;
+            shakeTime = 0;
 
             WaypointManager.ReconfigurePath(gameObject);
         }
+    }
+
+    public int GetEggCount()
+    {
+        return eggCollisionCount;
+    }
+
+    public void Shake()
+    {
+        if (eggCollisionCount > 3)
+            return;
+
+        isShaking = true;
+        initialPos = transform.position;
+        shakeTime = eggCollisionCount;
     }
 }

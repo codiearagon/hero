@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -6,22 +7,31 @@ public class WaypointManager : MonoBehaviour
 {
     enum Mode {Random, Sequential};
 
-    [SerializeField] private UIManager uiManager;
+    [SerializeField] private static UIManager uiManager;
+    [SerializeField] private static Camera cam;
     private static List<GameObject> waypoints;
     private static Mode mode;
 
     private bool visible;
+    private static bool camInUse;
 
     void Start()
     {
+        cam = GameObject.Find("WPCamera").GetComponent<Camera>();
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+
         mode = Mode.Sequential;
         visible = true;
+        camInUse = false;
         uiManager.UpdateWaypointVisibilityText("Visible");
 
         waypoints = new List<GameObject>();
 
         foreach (Transform child in transform)
         {
+            if (child.name == "WPCamera")
+                continue;
+
             waypoints.Add(child.gameObject); // Will add sequentially as long as hierarchy is sequential top-to-bottom
         }
 
@@ -98,6 +108,24 @@ public class WaypointManager : MonoBehaviour
                 e.UpdatePath(wp);
             }
         }
+    }
+
+    public static void SetCamera(Waypoint wp)
+    {
+        if (camInUse)
+            return;
+
+        camInUse = true;
+        uiManager.UpdateWPCamText("Active");
+        uiManager.UpdateWPCamVisibility(true);
+        cam.transform.position = new Vector3(wp.transform.position.x, wp.transform.position.y, -10);
+    }
+
+    public static void DisableCam()
+    {
+        camInUse = false;
+        uiManager.UpdateWPCamText("Inactive");
+        uiManager.UpdateWPCamVisibility(false);
     }
 
     private void ChangeVisibility()
