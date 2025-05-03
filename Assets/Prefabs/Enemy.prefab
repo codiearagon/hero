@@ -148,6 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 453d238d8e16bcb4c9e96c1e793c0503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentWaypointDir: {fileID: 0}
+  eggSprite: {fileID: 4646649027328027380, guid: 095bf2920bbe75840ad312e3cd4ca813, type: 3}
   uiManager: {fileID: 0}
   maxHealth: 100
   health: 100
