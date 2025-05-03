@@ -11,8 +11,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI waypointModeText;
     [SerializeField] private TextMeshProUGUI waypointVisibilityText;
     [SerializeField] private TextMeshProUGUI wpCamText;
+    [SerializeField] private TextMeshProUGUI chaseCamText;
 
     [SerializeField] private GameObject wpCam;
+    [SerializeField] private GameObject chaseCam;
 
     public void UpdateDestroyedEnemiesText(int count)
     {
@@ -33,7 +35,7 @@ public class UIManager : MonoBehaviour
     {
         heroModeText.text = "Hero Mode: " + mode;
     }
-    
+
     public void UpdateWaypointModeText(string mode)
     {
         waypointModeText.text = "Waypoint Mode: " + mode;
@@ -52,5 +54,15 @@ public class UIManager : MonoBehaviour
     public void UpdateWPCamText(string active)
     {
         wpCamText.text = "Waypoint Cam: " + active;
+    }
+
+    public void UpdateChaseCamVisibility(bool active)
+    {
+        chaseCam.SetActive(active);
+    }
+
+    public void UpdateChaseCamText(string active)
+    {
+        chaseCamText.text = "Chase Cam: " + active;
     }
 }

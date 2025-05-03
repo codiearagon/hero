@@ -15,6 +15,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float speed;
 
     private GameObject chaseObject;
+    private Camera chaseCam;
+
     private static int destroyedEnemies = 0;
     private int eggCollisionCount = 0;
     private EState eState = EState.Normal;
@@ -23,6 +25,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        chaseCam = EnemySpawnManager.GetChaseCamera();
         EnemySpawnManager.enemies.Add(this);
 
         health = maxHealth;
@@ -35,7 +38,10 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         if (eState == EState.Normal)
+        {
             transform.Translate(Vector2.up * speed * Time.deltaTime);
+            transform.up = currentWaypointDir.transform.position - transform.position;
+        }
 
         else if (eState == EState.Stunned)
             transform.RotateAround(transform.position, Vector3.forward, -180.0f * Time.deltaTime);
@@ -49,7 +55,11 @@ public class Enemy : MonoBehaviour
             else if (playerFoundAnimDuration > 0)
                 transform.RotateAround(transform.position, Vector3.forward, -180.0f * Time.deltaTime);
             else
+            {
                 eState = EState.Chase;
+                chaseCam.gameObject.SetActive(true);
+                chaseCam.GetComponent<ChaseCamera>().SetEnemy(this);
+            }
         }
 
         else if (eState == EState.Chase)
@@ -63,8 +73,9 @@ public class Enemy : MonoBehaviour
             if (posDiff.sqrMagnitude > Mathf.Pow(40, 2))
             {
                 eState = EState.Normal;
-                transform.up = currentWaypointDir.transform.position - transform.position;
                 GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+                chaseCam.gameObject.SetActive(false);
+                chaseCam.GetComponent<ChaseCamera>().DisableChase(this);
             }
         }
     }
@@ -144,6 +155,7 @@ public class Enemy : MonoBehaviour
         enemyCount--;
         destroyedEnemies++;
         EnemySpawnManager.enemies.Remove(this);
+        chaseCam.GetComponent<ChaseCamera>().DisableChase(this);
         uiManager.UpdateEnemyCountText(enemyCount);
         uiManager.UpdateDestroyedEnemiesText(destroyedEnemies);
     }

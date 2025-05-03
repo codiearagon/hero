@@ -5,6 +5,7 @@ public class EnemySpawnManager : MonoBehaviour
 {
     public static List<Enemy> enemies = new List<Enemy>();
 
+    [SerializeField] private static Camera chaseCam;
     [SerializeField] private UIManager uiManager;
     [SerializeField] private Camera cam;
     [SerializeField] private GameObject enemyPrefab;
@@ -16,6 +17,8 @@ public class EnemySpawnManager : MonoBehaviour
 
     void Start()
     {
+        chaseCam = GameObject.Find("ChaseCamera").GetComponent<Camera>();
+
         // 90% of screen bounds
         xBounds = (cam.orthographicSize * Screen.width / Screen.height) * 0.9f;
         yBounds = cam.orthographicSize *  0.9f;
@@ -38,5 +41,10 @@ public class EnemySpawnManager : MonoBehaviour
     Vector2 RandomPos()
     {
         return new Vector2(Random.Range(-xBounds, xBounds), Random.Range(-yBounds, yBounds));
+    }
+
+    public static Camera GetChaseCamera()
+    {
+        return chaseCam;
     }
 }
